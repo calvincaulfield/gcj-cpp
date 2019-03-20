@@ -20,11 +20,11 @@ def get_files(dir):
             result.append(os.path.relpath(os.path.join(cur, file), dir))
     return result
 
-def get_python_file_names(dir):
-    return [python_file[:-3] for python_file in get_files(dir) if python_file.endswith('.py')]
+def remove_extension(file):
+    pass
 
-def get_module_from_python_file_name(path):
-    return path.replace(os.path.sep, '.')
+def get_file_names_with_extension(extension):
+    return [file for file in get_files('.') if file.endswith(f".{extension}")]
 
 def compare_two_files(file1, file2):
     f1 = open(file1)
@@ -39,14 +39,12 @@ def compare_two_files(file1, file2):
             break
     return True
 
-python_files = get_python_file_names(SOLUTION_DIRECTORY)
-in_files = get_files(INPUT_FILE_DIR)
-answer_files = get_files(ANSWER_FILE_DIR)
+cpp_files = get_file_names_with_extension("cpp")
+in_files = get_file_names_with_extension("in")
+answer_files = get_file_names_with_extension("ok")
 
 # Solve all problems and check output
-for python_file in python_files:
-    module = SOLUTION_DIRECTORY + "." + get_module_from_python_file_name(python_file)
-    importlib.import_module(module)
+for cpp_file in cpp_files:
 
     for in_file in in_files:
         if (TEST_MODE == 1 and "large" in in_file):
@@ -54,7 +52,7 @@ for python_file in python_files:
         if (TEST_MODE == 2 and "test" not in in_file):
             continue
 
-        if in_file.startswith(python_file):
+        if in_file.startswith(cpp_files):
             handle = open(os.path.join(INPUT_FILE_DIR, in_file))
             out_file = in_file.replace('.in', '.out')
             out_handle = open(os.path.join(OUTPUT_FILE_DIR, out_file), 'w')
