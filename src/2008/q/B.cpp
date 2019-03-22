@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 #include <set>
 #include <algorithm>
 
@@ -28,12 +27,10 @@ pair<string, string> split_into_two(const string &s, char delim) {
 int convert_to_min(string time) {
     int hours = stoi(time.substr(0, 2));
     int mins = stoi(time.substr(3));
-    //cout << time << ": " << hours * 60 + mins << "\n";
     return hours * 60 + mins;
 }
 
-int get_maximum_debt(vector<int> ins, vector<int> outs) {
-    
+int get_maximum_debt(vector<int> ins, vector<int> outs) {    
     // 1: in, 2: out
     // Note that numeric order of in and out matters, because of simultaneous arrival and departure
     vector<pair<int, int>> list;
