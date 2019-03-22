@@ -49,7 +49,7 @@ for cpp_file in cpp_files:
     return_code = subprocess.run(["g++", f"{cpp_file}", "-o", f"{exe_file}"]).returncode
     if (return_code != 0):
         sys.exit(f"Compile error {cpp_file}")
-    subprocess.run(["chmod", "733", f"{exe_file}"])
+    #subprocess.run(["chmod", "733", f"{exe_file}"])
 
     for in_file in in_files:
         if (TEST_MODE == 1 and "large" in in_file):
@@ -60,7 +60,7 @@ for cpp_file in cpp_files:
         if in_file.startswith(remove_extension(cpp_file)):
             out_file = in_file.replace('.in', '.out')
    
-            return_code = subprocess.run([f"{exe_file}"], stdin=open(in_file), stdout=open(out_file)).returncode
+            return_code = subprocess.run([f"{exe_file}"], stdin=open(in_file), stdout=open(out_file, 'w')).returncode
             if (return_code != 0):
                 sys.exit(f"Runtime error {cpp_file}")
 
