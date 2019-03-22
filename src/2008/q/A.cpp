@@ -1,6 +1,12 @@
 #include <iostream>
+#include <string>
 
 int main() {
-    std::cout << "OK";
+    std::string x;
+    while (std::cin >> x) {
+        std::cout << x;
+
+    }
+    
     
 }

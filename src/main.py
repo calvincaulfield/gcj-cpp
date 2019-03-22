@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+import subprocess
 
 SOLUTION_DIRECTORY = "solution"
 INPUT_FILE_DIR = "in"
@@ -41,8 +42,15 @@ cpp_files = get_file_names_with_extension("cpp")
 in_files = get_file_names_with_extension("in")
 answer_files = get_file_names_with_extension("answer")
 
+print("Start testing")
 # Solve all problems and check output
 for cpp_file in cpp_files:
+    exe_file = remove_extension(cpp_file) + '.exe'
+    return_code = subprocess.run(["g++", f"{cpp_file}", "-o", f"{exe_file}"]).returncode
+    if (return_code != 0):
+        sys.exit(f"Compile error {cpp_file}")
+    subprocess.run(["chmod", "733", f"{exe_file}"])
+
     for in_file in in_files:
         if (TEST_MODE == 1 and "large" in in_file):
             continue
@@ -50,11 +58,11 @@ for cpp_file in cpp_files:
             continue
 
         if in_file.startswith(remove_extension(cpp_file)):
-            handle = open(in_file)
             out_file = in_file.replace('.in', '.out')
-            out_handle = open(out_file, 'w')
-            handle.close()
-            out_handle.close()
+   
+            return_code = subprocess.run([f"{exe_file}"], stdin=open(in_file), stdout=open(out_file)).returncode
+            if (return_code != 0):
+                sys.exit(f"Runtime error {cpp_file}")
 
             # Compare with already proven answers
             answer_file_to_be = in_file.replace('.in', '.answer')
