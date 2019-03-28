@@ -49,7 +49,6 @@ for cpp_file in cpp_files:
     return_code = subprocess.run(["g++", f"{cpp_file}", "-o", f"{exe_file}"]).returncode
     if (return_code != 0):
         sys.exit(f"Compile error {cpp_file}")
-    #subprocess.run(["chmod", "733", f"{exe_file}"])
 
     for in_file in in_files:
         if (TEST_MODE == 1 and "large" in in_file):
